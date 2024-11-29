@@ -1,2 +1,2 @@
-[phases]
-start = "npm start"
+[phases.start]
+cmd = "npm start"
