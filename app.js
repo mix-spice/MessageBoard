@@ -2,8 +2,7 @@ const express = require("express");
 const path = require("node:path");
 const multer = require("multer"); // Import multer for file uploads
 const app = express();
-const PORT = 8080;
-
+const PORT = process.env.PORT || 8080; // Default to 8080 if PORT is not set
 // Configure Multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, "public/uploads/"),
