@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><%= title %></h1>
+    </header>
+    <form action="/new" method="POST" enctype="multipart/form-data">
+     
+
+      <label for="messageUser">User:</label>
+      <input type="text" id="messageUser" name="messageUser" required>
+
+      <label for="messageText">Message Text:</label>
+      <textarea id="messageText" name="messageText" required></textarea>
+
+      <label for="imageUpload">Upload Image (Optional):</label>
+      <input type="file" id="imageUpload" name="image" accept="image/*">
+
+      <button type="submit">Add Message</button>
+    </form>
+    <footer>
+     <a href="/" class="back-to-home">Back to Home</a>
+    </footer>
+  </div>
+</body>
+</html>

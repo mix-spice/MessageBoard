@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="layout">
+    <!-- Top Bar with Add Message Button -->
+    <div class="top-bar">
+      <h1><%= title %></h1>
+      <a href="/new" class="add-message-btn">Add Message</a>
+    </div>
+
+    <!-- Messages List -->
+    <ul class="messages">
+        <% messages.forEach((message, index) => { %>
+          <li>
+            <div class="message-user"><strong><%= message.user %></strong></div>
+            <div class="message-text"><%= message.text %></div>
+            <% if (message.image) { %>
+              <img src="<%= message.image %>" alt="Uploaded Image" class="uploaded-image">
+            <% } %>
+            <div class="message-date"><em><%= message.added.toDateString() %></em></div>
+            <div class="message-actions">
+              <button onclick="location.href='/message/<%= index %>'">View</button>
+              <button onclick="location.href='/message/<%= index %>/edit'">Edit</button>
+              <form action="/message/<%= index %>/delete" method="POST" style="display:inline;">
+                <button type="submit">Delete</button>
+              </form>
+              <form action="/message/<%= index %>/like" method="POST" class="like-form">
+                <button type="submit">Like (<%= message.likes || 0 %>)</button>
+              </form>
+            </div>
+          </li>
+        <% }); %>
+      </ul>
+  </div>
+</body>
+<script>
+    // Select all like forms
+    const likeForms = document.querySelectorAll(".like-form");
+  
+    likeForms.forEach((form) => {
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault(); // Prevent default form submission
+        const formAction = form.getAttribute("action"); // Get the form's action URL
+  
+        try {
+          // Send POST request using Fetch API
+          const response = await fetch(formAction, { method: "POST" });
+  
+          if (response.ok) {
+            // Reload the part of the page or update the UI as needed
+            const button = form.querySelector("button");
+            let currentLikes = parseInt(button.textContent.match(/\d+/) || 0, 10);
+            button.textContent = `Like (${currentLikes + 1})`;
+          } else {
+            console.error("Failed to like the message.");
+          }
+        } catch (error) {
+          console.error("An error occurred:", error);
+        }
+      });
+    });
+  </script>
+</html>
